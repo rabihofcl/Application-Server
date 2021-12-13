@@ -1,0 +1,224 @@
+
+from django.db import models
+
+
+
+
+import React, { useState } from 'react'
+
+function ApplicationForm() {
+    const [regForm, setRegForm] = useState({
+        name: '',
+        address: '',
+        city: '',
+        state: '',
+        email: '',
+        phone: '',
+        company_name: '',
+        logo: '',
+        team_background: '',
+        company_products: '',
+        incubation_type: ''
+    });
+
+    const { name, address, city, state, email, phone, company_name, logo, team_background, company_products, incubation_type } = regForm
+
+    const onChange = e => setRegForm({ ...regForm, [e.target.name]: e.target.value });
+
+    const onSubmit = e => {
+        e.preventDefault();
+
+        fetch('http://127.0.0.1:8000/incubation/form/', {
+            method: 'POST',
+            headers: {'Content-Type' : 'application/json'},
+            body: JSON.stringify(regForm)
+        })
+        .then( data => data.json())
+        .then(
+            data => {
+                console.log(data);
+            }
+        )
+
+        // fetch('http://127.0.0.1:8000/auth/', {
+        //     method: 'POST',
+        //     headers: {'Content-Type' : 'application/json'},
+        //     body: JSON.stringify(this.state.credentials)
+        // })
+        // .then( data => data.json())
+        // .then(
+        //     data => {
+        //         this.props.userLogin(data.token);
+        //     }
+        // ).catch(error => console.error(error))
+    }
+
+    return (
+        <div className='container mt-5'>
+            <h1>Registration Form</h1>
+
+            <form onSubmit={e => onSubmit(e)}>
+                <div className="row">
+                    <div className="form-group mb-3 col">
+                        <input
+                            className='form-control'
+                            type='text'
+                            placeholder='Name'
+                            name='name'
+                            value={name}
+                            onChange={e => onChange(e)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group mb-3 col">
+                        <input
+                            className='form-control'
+                            type='text'
+                            placeholder='Address'
+                            name='address'
+                            value={address}
+                            onChange={e => onChange(e)}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="form-group mb-3 col">
+                        <input
+                            className='form-control'
+                            type='text'
+                            placeholder='City'
+                            name='city'
+                            value={city}
+                            onChange={e => onChange(e)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group mb-3 col">
+                        <input
+                            className='form-control'
+                            type='text'
+                            placeholder='State'
+                            name='state'
+                            value={state}
+                            onChange={e => onChange(e)}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="form-group mb-3 col">
+                        <input
+                            className='form-control'
+                            type='text'
+                            placeholder='Email'
+                            name='email'
+                            value={email}
+                            onChange={e => onChange(e)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group mb-3 col">
+                        <input
+                            className='form-control'
+                            type='number'
+                            placeholder='Phone'
+                            name='phone'
+                            value={phone}
+                            onChange={e => onChange(e)}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="form-group mb-3 col">
+                        <input
+                            className='form-control'
+                            type='text'
+                            placeholder='Company Name'
+                            name='company_name'
+                            value={company_name}
+                            onChange={e => onChange(e)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group mb-3 col">
+                        <input
+                            className='form-control'
+                            type='file'
+                            placeholder='Logo'
+                            name='logo'
+                            value={logo}
+                            onChange={e => onChange(e)}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="form-group mb-3 col">
+                    <textarea
+                        className='form-control'
+                        placeholder='Describe Your Team and Background'
+                        name="team_background"
+                        value={team_background}
+                        cols="30"
+                        rows="5"
+                    ></textarea>
+                </div>
+
+                <div className="form-group mb-3 col">
+                    <textarea
+                        className='form-control'
+                        placeholder='Describe Your Company and Products'
+                        name="company_products"
+                        value={company_products}
+                        cols="30"
+                        rows="5"
+                    ></textarea>
+                </div>
+
+                <div className="form-check">
+                    <input
+                        className="form-check-input"
+                        type="radio" 
+                        name="incubation_type" 
+                        id="incubation_type1" 
+                        value={incubation_type}
+                        checked 
+                    />
+                    <label 
+                        className ="form-check-label" 
+                        for="incubation_type1">
+                        Physical Incubation
+                    </label>
+                </div>
+                <div className="form-check">
+                    <input
+                        className="form-check-input" 
+                        type="radio" 
+                        name="incubation_type" 
+                        id="incubation_type2" 
+                        value={incubation_type}
+                    />
+                    <label 
+                        className ="form-check-label" 
+                        for="incubation_type2">
+                        Virtual Incubation
+                    </label>
+                </div>
+
+                <button className='btn btn-primary mt-3 mb-5' type='button' >Submit</button>
+
+                
+
+
+            </form>
+
+        </div>
+    )
+}
+
+export default ApplicationForm
